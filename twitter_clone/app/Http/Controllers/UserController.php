@@ -10,6 +10,11 @@ use PhpParser\Node\Expr\FuncCall;
 
 class UserController extends Controller
 {
+    public function logout(){
+        auth()->logout();
+        return redirect('/')->with('success', 'you have loggedout');;
+    }
+    
     public function showCorrectHomepage(){
         if(auth()->check()){
             return view('homepage-feed');
@@ -26,9 +31,9 @@ class UserController extends Controller
         if(auth()->attempt(['username'=>$incomingFields['loginusername'], 'password'=>$incomingFields['loginpassword']])){
             //use session method to send cookie to browser to keep the user loged in all over the pages
             $request->session()->regenerate();
-            return 'done mf';
+            return redirect('/')->with('success', 'you have loggedin');
         }else{
-            return 'no mf';
+            return redirect('/')->with('failure', 'invalid login');
         }
     }
 
@@ -41,7 +46,8 @@ class UserController extends Controller
         ]);
         //hashing password in db
         $incomingFields['password']=bcrypt($incomingFields['password']);
-        User::create($incomingFields);
-        return "they don't know me son";
+        $user=User::create($incomingFields);
+        auth()->login($user);
+        return redirect('/')->with('success','you have created new account');
     }
 }
