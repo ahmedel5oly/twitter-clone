@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function viewSinglePost(Post $post){
+        //adding markdown lang to post text area
+        $post['body']=Str::markdown($post->body);
         return view('single-post', ['post'=>$post]);
     }
     
@@ -26,6 +29,7 @@ class PostController extends Controller
     }
     
     public function showCreateForm(){
+        
         return view('create-post');
 
     }
