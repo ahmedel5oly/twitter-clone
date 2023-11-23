@@ -10,6 +10,11 @@ use PhpParser\Node\Expr\FuncCall;
 
 class UserController extends Controller
 {
+    public function profile(User $user){ //pass to function to call user from db when use model(User) the variable need to match the name in the route
+        
+        return view('profile-posts', ['username'=> $user->username, 'posts'=> $user->posts()->latest()->get(), 'postCount'=>$user->posts()->count()]);
+    }
+    
     public function logout(){
         auth()->logout();
         return redirect('/')->with('success', 'you have loggedout');;

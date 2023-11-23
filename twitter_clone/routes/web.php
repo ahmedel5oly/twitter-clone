@@ -24,5 +24,8 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 //post related routes
 Route::get('/create-post',[PostController::class, 'showCreateForm'])->middleware('auth');
 Route::post('/create-post',[PostController::class, 'storeNewPost'])->middleware('auth');
-Route::get('/post/{post}',[PostController::class, 'viewSinglePost']);
+Route::get('/post/{post}',[PostController::class, 'viewSinglePost']);//use {} to make it dynamic(the name refer to nothing)
+
+//profile related routes
+Route::get('/profile/{user:username}',[UserController::class, 'profile']);
 
