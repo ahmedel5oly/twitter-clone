@@ -8,7 +8,16 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function delete(Post $post){
+        if(auth()->user()->cannot('delete', $post)){
+            return 'you cannot do it';
+        }
+        $post->delete();
+        return redirect('/profile/'.auth()->user()->username)->with('success', 'message deleted');
+    }
+    
     public function viewSinglePost(Post $post){
+        
         //adding markdown lang to post text area
         $post['body']=Str::markdown($post->body);
         return view('single-post', ['post'=>$post]);
