@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    // public function new(Request $request){
+    //     $fields=$request->validate([
+    //         'user'=>['required']
+    //     ]);
+    // }
+    
     public function delete(Post $post){
         if(auth()->user()->cannot('delete', $post)){
             return 'you cannot do it';
