@@ -13,7 +13,7 @@
           <a href="#" class="profile-nav-link nav-item nav-link">Followers: 3</a>
           <a href="#" class="profile-nav-link nav-item nav-link">Following: 2</a>
         </div>
-  
+        
         <div class="list-group">
           @foreach($posts as $post)
           <a href="/post/{{$post->id}}" class="list-group-item list-group-item-action">
