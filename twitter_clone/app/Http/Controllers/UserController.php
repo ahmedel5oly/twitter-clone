@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Image;
 use Illuminate\Validation\Rule;
 use PhpParser\Builder\Function_;
 use PhpParser\Node\Expr\FuncCall;
@@ -15,6 +17,17 @@ class UserController extends Controller
         return view('profile-posts', ['username'=> $user->username, 'posts'=> $user->posts()->latest()->get(), 'postCount'=>$user->posts()->count()]);
     }
     
+    public function storeAvatar(Request $request){
+        $request->validate([
+            'avatar' => ['required', 'mimes:png,jpg,jpeg', 'max:2048']
+        ]);
+        $user=auth()->user();
+        $imgData=Image::make($request->file('avatar'))->fit(120)->encode('jpg');
+        Storage::put("public/avatars/{$user->id}.jpg", $imgData);
+    }
+    public function showAvatarForm(){
+        return view('avatar-form');
+    }
     public function logout(){
         auth()->logout();
         return redirect('/')->with('success', 'you have loggedout');;
@@ -54,7 +67,6 @@ class UserController extends Controller
         }
     }
 
-    //why function should use public/private
     public function register(Request $request){
         $incomingFields= $request->validate([
             'username'=>['required', 'min:3','max:20',Rule::unique('users','username')],

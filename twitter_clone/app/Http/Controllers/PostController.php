@@ -14,6 +14,20 @@ class PostController extends Controller
     //     ]);
     // }
     
+    public function actuallyUpdate(Request $request, Post $post){
+        $incomingFields=$request->validate([
+            'title'=>'required',
+            'body'=>'required'
+        ]);
+        $incomingFields['title']=strip_tags($incomingFields['title']);
+        $incomingFields['body']=strip_tags($incomingFields['body']);
+
+        $post->update($incomingFields);
+        return back()->with('success', 'message updated');
+    }
+    public function showEditForm(Post $post){
+        return view('edit-post', ['post'=>$post]);
+    }    
     public function delete(Post $post){
         if(auth()->user()->cannot('delete', $post)){
             return 'you cannot do it';
