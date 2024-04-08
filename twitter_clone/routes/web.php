@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\PostController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use Illuminate\Auth\Access\Gate;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\FollowController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,10 @@ Route::post('/login', [UserController::class, 'login'])->middleware('guest');
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 Route::get('/manage-avatar', [UserController::class, 'showAvatarForm']);
 Route::post('/manage-avatar', [UserController::class, 'storeAvatar']);
+
+//follow related routes
+Route::post('/create-follow/{user:username}', [FollowController::class, 'createFollow']);
+Route::post('/delete-follow/{user:username}', [FollowController::class, 'deleteFollow']);
 
 //post related routes
 Route::get('/create-post',[PostController::class, 'showCreateForm'])->middleware('auth');
