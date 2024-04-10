@@ -14,6 +14,9 @@ class PostController extends Controller
     //     ]);
     // }
     
+    public function search($term){
+        
+    } 
     public function actuallyUpdate(Request $request, Post $post){
         $incomingFields=$request->validate([
             'title'=>'required',
