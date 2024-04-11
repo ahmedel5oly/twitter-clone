@@ -15,7 +15,8 @@ class PostController extends Controller
     // }
     
     public function search($term){
-        
+        $posts=Post::search($term)->get();
+        return $posts;
     } 
     public function actuallyUpdate(Request $request, Post $post){
         $incomingFields=$request->validate([
